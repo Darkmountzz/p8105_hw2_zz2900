@@ -28,8 +28,9 @@ nyc_transit = read_csv("data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv",
   mutate(entry = ifelse(entry == "YES", TRUE, FALSE))
 ```
 
+This dataset contains entrance and exit information for each listed subway station in New York City. This dataset has `r nrow(nyc_transit)` rows and `r ncol(nyc_transit)` columns and it contains variables: `r names(nyc_transit)`. The above date cleaning steps include selecting required variables, converting route 8-11 into character variables and converting entry variable from chatacter variable to logic variable. 
 
-This dataset contains entrance and exit information for each listed subway station in New York City. This dataset has `r nrow(nyc_transit)` rows and `r ncol(nyc_transit)` columns and it contains variables: `r names(nyc_transit)`. The above date cleaning steps include selecting required variables, converting route 8-11 into character variables and converting entry variable from chatacter variable to logic variable. These data are not tidy yet.
+Yet, these data are not tidy.
 
 
 ```{r}
