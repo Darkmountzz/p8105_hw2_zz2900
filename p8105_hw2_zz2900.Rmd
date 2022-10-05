@@ -80,4 +80,50 @@ Transit %>%
   distinct
 ```
 
+# Problem 2 
+Read and clean the Mr. Trash Wheel sheet
+```{r}
+# The mutate function indicates which sheet is from
+# The row with pic was excluded
+Trash_data = read_excel(
+  "data/Trash Wheel Collection Data.xlsx", 
+  sheet ="Mr. Trash Wheel", 
+  range = "A2:N549"
+) %>%
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(sports_balls, sports_balls = as.integer(round(sports_balls, digits = 0))) %>% 
+  mutate(group = 1 ) %>% 
+  mutate(year = as.numeric(year))
+```
+
+Read and clean the Professor Trash Wheel sheet
+```{r}
+Professor_data = read_excel(
+  "data/Trash Wheel Collection Data.xlsx",
+  sheet ="Professor Trash Wheel", 
+  range = "A2:M96") %>%
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(group = 2)
+```
+
+```{r}
+merge_data = bind_rows(Trash_data, Professor_data)
+total = filter(merge_data, group == "2") %>%
+  pull(weight_tons)
+ball = filter(merge_data , group == "1"& year == "2020") %>% 
+  pull(sports_balls)
+
+```
+
+
+For the first data set, Mr. Trash Wheel contains ``r nrow(Trash_data)`` observations with ``r ncol(Trash_data)`` variables which are respectively `Trash_data`(``r names(Trash_data)``)
+
+For the second data set, Professor Trash Wheel contains ``r nrow(Professor_data)`` observations with ``r ncol(Professor_data)`` variables which are respectively `Professor_data`(``r names(Professor_data)``)
+
+For the merge data set, it contains ``r nrow(merge_data)`` observations with ``r ncol(merge_data)`` variables which are respectively `merge_data`(``r names(merge_data)``)
+
+Therefore, the total weight of trash collected by Professor Trash Wheel is `r sum(total)` tons. The total number of sports balls collected by Mr.Trash Wheel in 2020 is `r sum(ball)`.
+
 
