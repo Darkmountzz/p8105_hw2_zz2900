@@ -85,8 +85,6 @@ Transit %>%
 First Step: Read and clean the Mr. Trash Wheel sheet
 
 ```{r}
-# The mutate function indicates which sheet is from
-# The row with pic was excluded
 Trash_data = read_excel(
   "data/Trash Wheel Collection Data.xlsx", 
   sheet ="Mr. Trash Wheel", 
@@ -114,22 +112,24 @@ Professor_data = read_excel(
 Third Step: Combine two dataset and do calculation
 
 ```{r}
-merge_data = bind_rows(Trash_data, Professor_data)
-total = filter(merge_data, group == "2") %>%
+Combine_data = bind_rows(Trash_data, Professor_data)
+
+total_weight = filter(Combine_data, group == "2") %>%
   pull(weight_tons)
-ball = filter(merge_data , group == "1"& year == "2020") %>% 
+
+number_balls = filter(Combine_data , group == "1"& year == "2020") %>% 
   pull(sports_balls)
 
 ```
 
 
-For the first data set, Mr. Trash Wheel contains `r nrow(Trash_data)` observations with `r ncol(Trash_data)` variables: `r names(Trash_data)`
+Data set Mr. Trash Wheel contains `r nrow(Trash_data)` observations with `r ncol(Trash_data)` variables: `r names(Trash_data)`
 
-For the second data set, Professor Trash Wheel contains `r nrow(Professor_data)` observations with `r ncol(Professor_data)` variables: `r names(Professor_data)`
+Data set Professor Trash Wheel contains `r nrow(Professor_data)` observations with `r ncol(Professor_data)` variables: `r names(Professor_data)`
 
-For the merge data set, it contains `r nrow(merge_data)` observations with `r ncol(merge_data)` variables: `r names(merge_data)`
+For the combine data set, it contains `r nrow(Combine_data)` observations with `r ncol(Combine_data)` variables: `r names(Combine_data)`
 
-Therefore, the total weight of trash collected by Professor Trash Wheel is `r sum(total)` tons. The total number of sports balls collected by Mr.Trash Wheel in 2020 is `r sum(ball)`.
+Therefore, the total weight of trash collected by Professor Trash Wheel is `r sum(total_weight)` tons. The total number of sports balls collected by Mr.Trash Wheel in 2020 is `r sum(number_balls)`.
 
 ## Problem 3
 
